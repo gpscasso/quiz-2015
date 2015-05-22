@@ -11,3 +11,9 @@ exports.answer = function(req, res) {
 	  res.render('quizes/answer', {respuesta: 'Inconrrecto'});
 	}
 };
+
+// GET /author/
+exports.author = function(req, res){
+	res.render('author', {pregunta: 'Capital de Italia'});
+};
+
