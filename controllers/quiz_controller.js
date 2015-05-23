@@ -1,16 +1,15 @@
+var models = require('../models/models.js');
 
-var models = require('../models/models.js')
-
-
-// Autoload
+// Autoload - factoriza el código si ruta incluye :quizId
 exports.load = function(req, res, next, quizId) {
-	models.Quiz.find(quizId).then(
-		function(quiz) {
-			if(quiz) {
-				req.quiz = quiz;
-				next();
-			} else { next(new Error('No existe quizId=' + quizId)); }
-		}).catch(function(error) {next(error);});
+ models.Quiz.find(quizId).then(
+ function(quiz) {
+ if (quiz) {
+ req.quiz = quiz;
+ next();
+ } else { next(new Error('No existe quizId=' + quizId)); }
+ }
+ ).catch(function(error) { next(error);});
 };
 
 // GET /quizes/question
@@ -36,9 +35,7 @@ exports.show = function(req, res) {
 exports.answer = function(req, res) {
 	var resultado = 'Incorrecto';
  	if (req.query.respuesta === req.quiz.respuesta) {
- 		resultado = 'Correcto';
+ 	resultado = 'Correcto';
  	}
  	res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado});
 };
-
-
