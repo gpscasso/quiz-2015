@@ -29,7 +29,9 @@ exports.index = function(req, res){
 
 // GET /quizes/:id
 exports.show = function(req, res) {
-	res.render('quizes/show', { quiz: req.quiz});
+	models.Quiz.find(req.params.quizId).then(function(quiz) {
+		res.render('quizes/show', { quiz: quiz});
+	})
 };
 
 // GET /quizes/:id/answer
