@@ -1,10 +1,11 @@
-<table>
-	<% var i; for (i=0; i < quizes.length; i++) { %>
-	<tr><td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td></tr>
-	<% } %>
-</table>
-
-<form method="get" action="/quizes?search=texto_a_buscar">
-	 <input type="text" name="search" placeholder="Búsqueda de pregunta"/>
-	 <input type="submit" value="Enviar">
- </form>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+  </body>
+</html>
