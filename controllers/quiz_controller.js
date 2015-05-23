@@ -13,16 +13,17 @@ exports.load = function(req, res, next, quizId) {
 };
 
 // GET /quizes/question
-exports.index = function(req, res) {
-	if (req.query.search) {
-		models.Quiz.findAll({where: ["pregunta like ?", '%' + req.query.search + '%']}).then(
-			function(quizes) {res.render('quizes/index', { quizes: quizes});}
-			).catch(function(error) { next(error);})
-	}
-	else{
-		models.Quiz.findAll().then(
-			function(quizes) {res.render('quizes/index', { quizes: quizes});}
-			).catch(function(error) { next(error);})
+exports.index = function(req, res){
+	if(req.query.search){
+		models.Quiz.findAll({where: ["pregunta like ?", "%"+req.query.search.replace(" ","%")+"%"]}).then(
+			function(quizes){
+				res.render('quizes/index.ejs', {quizes: quizes});
+			}
+			).catch(function(error){next(error);});
+	}else{
+		models.Quiz.findAll().then(function(quizes){
+			res.render('quizes/index.ejs',{quizes:quizes});
+		}).catch(function(error){next(error);});
 	}
 };
 
