@@ -28,9 +28,11 @@ exports.index = function(req, res){
 
 // GET /quizes/:id
 exports.show = function(req, res) {
-	res.render('quizes/show', { quiz: res.quiz});
+	models.Quiz.findById(req.params.quizId).then(function(quiz) {
+		res.render('quizes/show', { quiz: quiz});
+	})
 };
--
+
 // GET /quizes/:id/answer
 exports.answer = function(req, res) {
 	var resultado = 'Incorrecto';
@@ -39,3 +41,23 @@ exports.answer = function(req, res) {
 	}
 	res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado});
 };
+
+// GET /quizes/new
+exports.new = function(req, res) {
+	var quiz = models.Quiz.build(
+		{pregunta: "Pregunta", respuesta: "Respuesta"}
+		);
+
+	res.render('quizes/new', {quiz: quiz});
+};
+
+// POST /quizes/create
+exports.create = function(req, res) {
+	var quiz = models.Quiz.build( req.body.quiz );
+
+	// guarda en DB los campos pregunta y respues de quiz
+	quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
+		res.redirect('/quizes');
+	}) // Redireccion HTTP (URL relativo) lista de preguntas
+};
+
