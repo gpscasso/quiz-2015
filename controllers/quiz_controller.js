@@ -18,11 +18,11 @@ exports.index = function(req, res){
 		models.Quiz.findAll({where: ["pregunta like ?", "%"+req.query.search.replace(" ","%")+"%"]}).then(
 			function(quizes){
 				res.render('quizes/index.ejs', {quizes: quizes, errors: []});
-			}).catch(function(error){next(error);});
+			}).catch(function(error) {next(error);});
 	}else{
 		models.Quiz.findAll().then(function(quizes){
-			res.render('quizes/index.ejs',{quizes:quizes});
-		}).catch(function(error){next(error);});
+			res.render('quizes/index.ejs',{quizes:quizes, errors: []});
+		}).catch(function(error) {next(error);});
 	}
 };
 

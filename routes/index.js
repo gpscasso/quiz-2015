@@ -11,7 +11,7 @@ router.get('/', function(req, res) {
 
 /* GET author page. */
 router.get('/author', function(req, res){
-	res.render('author', {autor: 'Guillérmo Pages Scasso'});
+	res.render('author', {autor: 'Guillérmo Pages Scasso', errors: []});
 });
 
 // Autoload
