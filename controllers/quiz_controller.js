@@ -82,14 +82,11 @@ exports.update = function(req, res) {
 	req.quiz.pregunta = req.body.quiz.pregunta;
 	req.quiz.respuesta = req.body.quiz.respuesta;
 
-	req.quiz
-	.validate()
-	.then(
-		function(err) {
+	req.quiz.validate().then(function(err) {
 			if(err) {
 				res.render('quizes/edit', {quiz: req.quiz, errors: err.errors});
 			} else {
-				req.quiz
+				req.quiz // save: guarda campos pregunta y respuesta en DB
 				.save( {fields: ["pregunta", "respuesta"]})
 				.then( function(){ res.redirect('/quizes');});
 					// Redireccion HTTP a lista de preguntas (URL relativo)
