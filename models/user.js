@@ -1,6 +1,6 @@
 // Definicion del modelo de User con validación y encriptación de passwords
 var crypto = require('crypto');
-var key = asdfghjklzxcvbnmqwertyuiop;
+var key = 'asdfghjklzxcvbnmqwertyuiop';
 
 module.exports = function(sequelize, DataTypes) {
     var User = sequelize.define(
