@@ -35,28 +35,47 @@ var Quiz = sequelize.import(quiz_path);
 var comment_path = path.join(__dirname,'comment');
 var Comment = sequelize.import(comment_path);
 
+//Importar definicion de la tabla User
+var user_path = path.join(__dirname,'user');
+var User = sequelize.import(user_path);
+
 Comment.belongsTo(Quiz);
 Quiz.hasMany(Comment);
 
+// Los quizes pertenencen a un usuario registrado
+Quiz.belongsTo(User);
+User.hasMany(Quiz);
+
 exports.Quiz = Quiz; // exportar tabla Quiz
 exports.Comment = Comment;
+exports.User = User;
+
+
+
 
 // sequelize.sync() crea e inicializa tabla de preguntas en DB
 sequelize.sync({force: true}).then(function() {
- 	// then(..) ejecuta el manejador una vez creada la tabla
- 	Quiz.count().then(function (count){
- 		if(count === 0) { // la tabla se inicializa solo si está vacía
- 			/*
- 			Quiz.bulkCreate([ 
- 				{pregunta: 'Capital de Italia', respuesta: 'Roma'},
- 				{pregunta: 'Capital de Portugal', respuesta: 'Lisboa'}
- 			])*/
- 			
- 			Quiz.create({pregunta: 'Capital de Italia', respuesta: 'Roma'});
- 			Quiz.create({pregunta: 'Capital de Portugal', respuesta: 'Lisboa'})
- 			Quiz.create({pregunta: 'Capital de España', respuesta: 'Madrid'})
- 			Quiz.create({pregunta: 'Capital de Suecia', respuesta: 'Estocolmo'})
- 			.then(function(){console.log('Base de datos inicializada')});
- 		};
- });
-}); 
+  // then(..) ejecuta el manejador una vez creada la tabla
+  User.count().then(function (count){
+    if(count === 0) {   // la tabla se inicializa solo si está vacía
+      User.bulkCreate( 
+        [ {username: 'admin',   password: '1234', isAdmin: true},
+          {username: 'guille',   password: 'gpscasso'} // el valor por defecto de isAdmin es 'false'
+        ]
+      ).then(function(){
+        console.log('Base de datos (tabla user) inicializada');
+        Quiz.count().then(function (count){
+          if(count === 0) {   // la tabla se inicializa solo si está vacía
+            Quiz.bulkCreate( 
+              [ {pregunta: 'Capital de Italia',   respuesta: 'Roma', 	  UserId: 2}, // estos quizes pertenecen al usuario pepe (2)
+                {pregunta: 'Capital de Portugal', respuesta: 'Lisboa', 	  UserId: 2},
+                {pregunta: 'Capital de España',	  respuesta: 'Madrid', 	  UserId: 2},
+ 				{pregunta: 'Capital de Suecia',   respuesta: 'Estocolmo', UserId: 2}
+              ]
+            ).then(function(){console.log('Base de datos (tabla quiz) inicializada')});
+          };
+        });
+      });
+    };
+  });
+});
