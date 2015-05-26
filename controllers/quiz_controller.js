@@ -105,7 +105,7 @@ exports.destroy = function(req, res) {
 };
 
 //Estadisticas
-exports.stadistics = function(req, res) {
+exports.statistics = function(req, res) {
 models.Quiz.count().then(function(num_preg){
     models.Comment.count().then(function(num_com){
         models.Quiz.findAll({ include: [{ model: models.Comment }] }).then(function(quizes){

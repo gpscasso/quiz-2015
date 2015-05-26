@@ -4,14 +4,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
 var partials = require('express-partials');
 var methodOverride = require('method-override');
 var session = require('express-session');
-
 var routes = require('./routes/index');
-
 var app = express();
+var tiempo;
+var creacion;
+
+var https = require('https');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,29 +21,48 @@ app.set('view engine', 'ejs');
 app.use(partials());
 
 // uncomment after placing your favicon in /public
+// app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser('Quiz 2015'));
 app.use(session());
+
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 // Helpers dinamicos:
-app.use(function(req, res, next){
+app.use(function(req, res, next) {
 
-    //guardar path en session.redir para despues de login
-    if (!req.path.match(/\/login|\/logout/)) {
-        req.session.redir = req.path;
-    }
+  // guardar path en session.redir para despues de login
+  if (!req.path.match(/\/login|\/logout/)) {
+    req.session.redir = req.path;
+  }
 
-    // Hacer visible req.session en las vistas
-    res.locals.session = req.session;
-    next();
+  // Hacer visible req.session en las vistas
+  res.locals.session = req.session;
+  next();
 });
 
 app.use('/', routes);
+app.use('/author', routes);
+
+
+//tiempo de sesion
+app.use(function(req, res, next) {
+    tiempo = new Date();
+    if (req.session.user) {
+        creacion = new Date(req.session.user.tiempo);
+        if ((tiempo-creacion)<120000) {
+         req.session.user.tiempo = tiempo;
+        }else {
+            delete req.session.user;
+        }
+    };
+next();
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
