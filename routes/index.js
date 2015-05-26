@@ -20,6 +20,9 @@ router.get('/author', function(req, res){
 router.param('quizId', quizController.load);
 router.param('commentId', commentController.load);
 
+// Definicion de rutas de estadisticas
+router.get('/quizes/statistics', quizController.statistics);
+
 // Definicion de rutas de sesion
 router.get('/login', sessionController.new);
 router.post('/login', sessionController.create);

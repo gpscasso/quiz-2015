@@ -104,4 +104,25 @@ exports.destroy = function(req, res) {
 	}).catch(function(error){next(error)});
 };
 
-
+//Estadisticas
+exports.stadistics = function(req, res) {
+models.Quiz.count().then(function(num_preg){
+    models.Comment.count().then(function(num_com){
+        models.Quiz.findAll({ include: [{ model: models.Comment }] }).then(function(quizes){
+            var preg_con_coment=0;
+            for(preg in quizes){
+                if(quizes[preg].Comments.length)
+                preg_con_coment++;
+            }
+            
+            res.render('quizes/statistics', {
+                num_preg: num_preg,
+                num_com: num_com,
+                media: num_com / num_preg,
+                preg_con_coment: preg_con_coment,
+                preg_sin_coment: num_preg - preg_con_coment,
+                errors: []});
+        })
+    })
+});
+}
