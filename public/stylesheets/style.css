@@ -35,6 +35,8 @@ footer{
 
 nav span{
 	margin: 0px 10px 0px 0px;
+	width: 100%;
+	display: inline-block;
 }
 
 #ErrorMsgs{
@@ -43,4 +45,7 @@ nav span{
 }
 .right {float: right;}
 
-.quiz_img { height: 150px; float: left;}
+.quiz_img {
+	 height: 150px; 
+	 float: left;
+}

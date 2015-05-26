@@ -22,7 +22,12 @@ exports.index = function(req, res){
 				res.render('quizes/index.ejs', {quizes: quizes, errors: []});
 			}).catch(function(error) {next(error);});
 	}else{
-		models.Quiz.findAll().then(function(quizes){
+		var options = {};
+		if(req.user){  // req.user es creado por autoload de usuario
+					   // si la ruta lleva el parametro .quizId
+			options.where = {UserId: req.user.id}
+		}
+		models.Quiz.findAll(options).then(function(quizes){
 			res.render('quizes/index.ejs',{quizes:quizes, errors: []});
 		}).catch(function(error) {next(error);});
 	}
