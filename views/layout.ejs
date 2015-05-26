@@ -20,7 +20,7 @@
     <%if(!session.user){%>
       <span class="right"><a href="/user">Sign up</a> - <a href="/login">Login</a></span>
     <%}else{%>
-      <span class="right"> <%=session.user.username%> - <a href="/user/<%=session.user.id%>/edit">Settings</a> - <a href="/logout">Logout</a></span>
+      <span class="right"> <font style="text-transform: uppercase;"><%=session.user.username%> </font>- <a href="/user/<%=session.user.id%>/edit">Settings</a> - <a href="/logout">Logout</a></span>
     <%}%>
 
 		<h2>Quiz:<span> el juego de las preguntas</span></h2>
