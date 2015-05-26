@@ -69,7 +69,7 @@ sequelize.sync({force: true}).then(function() {
             Quiz.bulkCreate( 
               [ {pregunta: 'Capital de Italia',   respuesta: 'Roma', 	  UserId: 2, image:'italia.png'}, // estos quizes pertenecen al usuario pepe (2)
                 {pregunta: 'Capital de Portugal', respuesta: 'Lisboa', 	  UserId: 2, image:'portugal.png'},
-                {pregunta: 'Capital de España',	  respuesta: 'Madrid', 	  UserId: 2, image:'spain.jpg'},
+                {pregunta: 'Capital de España',	  respuesta: 'Madrid', 	  UserId: 2, image:'http://4.bp.blogspot.com/-DPp8wS9VFZY/U6i3kwVD3VI/AAAAAAAAFzc/QYKJM-qRTTg/s1600/Bandera%2Bde%2BItalia.jpg'},
  				{pregunta: 'Capital de Suecia',   respuesta: 'Estocolmo', UserId: 2, image:'sweeden.jpg'}
               ]
             ).then(function(){console.log('Base de datos (tabla quiz) inicializada')});
