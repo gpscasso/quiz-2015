@@ -1,25 +1,50 @@
-<table>
-	<% var i; for (i=0; i < quizes.length; i++) { %>
-	<tr>
-		<td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
-		<%if(session.user){%>
-		<td><a href="quizes/<%= quizes[i].id %>/edit"><button>editar</button></a></td>
-		<td>
-			<form method="post" action="quizes/<%= quizes[i].id %>?_method=delete">
-				<button type="submit" onClick="return confirm('Borrar: <%= quizes[i].pregunta %>');">
-					borrar
-				</button>
-			</form>
-		</td>
-		<% } %>
-	</tr>
-	<% } %>
-</table>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Preguntas</title>
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+	<link rel='stylesheet' type='text/css' media='only screen and (min-width: 530px) and (min-device-width: 481px)' href='/stylesheets/wide.css' />
+	<link rel='stylesheet' type='text/css' media='only screen and (max-width: 480px)' href='/stylesheets/smartphone.css' />
+</head>
 
-<%if(session.user){%>
-<a href="/quizes/new"><button type="button">Crear pregunta</button></a>
-<form method="get" action="/quizes?search=texto_a_buscar">
-	 <input type="text" name="search" placeholder="Búsqueda de pregunta"/>
-	 <input type="submit" value="Enviar">
- </form>
- <%}%>
+<body>
+
+	<form method="get" action="/quizes?search=texto_a_buscar">
+		<input type="text" name="search" value="Busque una pregunta"/>
+		<input type="submit" value="Buscar">
+	</form>   
+
+	<br>
+
+	<center>
+		<table>
+			<% var i; for (i=0; i < quizes.length; i++) { %>        
+			<tr>
+				<td><a href="/quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
+				<%if(session.user) {
+					if (session.user.isAdmin || session.user.id === quizes[i].UserId) {%>
+					<td><a href="/quizes/<%= quizes[i].id %>/edit"><button>editar</button></a></td>
+					<td>
+						<form method="post" action="/quizes/<%= quizes[i].id %>?_method=delete">
+							<button type="submit" onClick="return confirm('Borrar: <%= quizes[i].pregunta %>');">
+								borrar
+							</button>
+						</form>
+					</td>
+					<%}
+				}%>
+			</tr> 
+			<% } %>
+		</table>
+
+		<p/>
+		<%if(session.user){%>
+		<a href="/quizes/new"><button type="button">Crear pregunta</button></a>
+		<form method="get" action="/quizes?search=texto_a_buscar">
+			<input type="text" name="search" placeholder="Búsqueda de pregunta"/>
+			<input type="submit" value="Enviar">
+		</form>
+		<%}%>
+</body>
+</html>
