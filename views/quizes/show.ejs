@@ -1,10 +1,10 @@
 <%if (quiz.image){%>
-<p><img class="quiz_img" src="/media/<%= quiz.image %>"></p>
+	<p><img class="quiz_img" src="/media/<%= quiz.image %>"></p>
 <%}%>
-<form method="get" action="/quizes/<%= quiz.id %>/answer">        
-  <%= quiz.pregunta %> <p>
-  <input type="text" name="respuesta" value="Respuesta"/>
-  <input type="submit" value="Enviar">
+<form method="get" action="/quizes/<%= quiz.id %>/answer">
+	<%= quiz.pregunta %> <p>
+	<input type="text" name="respuesta" placeholder="Responda aquí"/>
+	<input type="submit" value="Enviar">
 </form>
 
 <p><a href="/quizes/<%= quiz.id %>/comments/new"><button>Nuevo comentario</button></a></p>
@@ -14,7 +14,7 @@
 	<%if(quiz.Comments[index].publicado){%>
 		<p>- <%=quiz.Comments[index].texto%></p>
 	<%} else if(session.user && (session.user.isAdmin || (session.user && quiz.UserId === session.user.id))){%>
-			<p>- <%=quiz.Comments[index].texto%>
-			<a href="/quizes/<%= quiz.id %>/comments/<%=quiz.Comments[index].id%>/publish"><button>Publicar</button></a></p>
+		<p>- <%=quiz.Comments[index].texto%>
+		<a href="/quizes/<%= quiz.id %>/comments/<%=quiz.Comments[index].id%>/publish"><button>Publicar</button></a></p>
 	<%}%>
-<%}%>
+<%}%> 

@@ -60,7 +60,7 @@ sequelize.sync({force: true}).then(function() {
     if(count === 0) {   // la tabla se inicializa solo si está vacía
       User.bulkCreate( 
         [ {username: 'admin',    password: '1234', isAdmin: true},
-          {username: 'guille',   password: 'gpscasso'} // el valor por defecto de isAdmin es 'false'
+          {username: 'guille',   password: 'gpscasso', isAdmin: true} // el valor por defecto de isAdmin es 'false'
         ]
       ).then(function(){
         console.log('Base de datos (tabla user) inicializada');

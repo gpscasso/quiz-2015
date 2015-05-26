@@ -121,6 +121,7 @@ models.Quiz.count().then(function(num_preg){
             var preg_con_coment=0;
             for(preg in quizes){
                 if(quizes[preg].Comments.length)
+                	//console.log(quizes[preg].Comments)
                 preg_con_coment++;
             }
             
