@@ -56,6 +56,9 @@ exports.new = function(req, res) {
 // POST /quizes/create
 exports.create = function(req, res) {
 	req.body.quiz.UserId = req.session.user.id;
+	if(req.files.image) {
+		req.body.quiz.image = req.files.image.name;
+	}
 	var quiz = models.Quiz.build( req.body.quiz );
 
 	quiz
@@ -66,7 +69,7 @@ exports.create = function(req, res) {
 				res.render('quizes/new', {quiz: quiz, errors: err.errors});
 			} else {
 				quiz  // save: guarda en DB los campos pregunta y respues de quiz
-				.save({fields: ["pregunta", "respuesta", "UserId"]})
+				.save({fields: ["pregunta", "respuesta", "UserId", "image"]})
 				.then( function(){ res.redirect('/quizes')}) 
 			} // Redireccion HTTP (URL relativo) lista de preguntas
 		}

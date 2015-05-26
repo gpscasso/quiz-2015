@@ -42,3 +42,5 @@ nav span{
 	font-size: smaller;
 }
 .right {float: right;}
+
+.quiz_img { height: 150px; float: left;}
