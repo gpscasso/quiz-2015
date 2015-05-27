@@ -13,7 +13,7 @@ exports.load = function(req, res, next, quizId) {
 		}
 		).catch(function(error) { next(error);});
 };
-
+ 
 // GET /quizes/question
 exports.index = function(req, res){
 	if(req.query.search){
