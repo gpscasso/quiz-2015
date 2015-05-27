@@ -19,7 +19,7 @@ exports.index = function(req, res){
 	if(req.query.search){
 		models.Quiz.findAll({where: ["pregunta like ?", "%"+req.query.search.replace(" ","%")+"%"]}).then(
 			function(quizes){
-				res.render('quizes/index.ejs', {quizes: quizes, errors: []});
+				res.render('quizes/index.ejs', {quizes: quizes, favos: [], errors: []});
 			}).catch(function(error) {next(error);});
 	}else{
 		var options = {};
@@ -27,8 +27,20 @@ exports.index = function(req, res){
 					   // si la ruta lleva el parametro .quizId
 			options.where = {UserId: req.user.id}
 		}
+		// ************************ //
+		if(req.session.user){
+			var favos = [];
+			models.User.find({ id: req.session.user.id}).then(function(usuario) {
+				req.user = usuario;
+				req.user.getFavourites().then(function(favourites){
+					favos = favorites;
+				}).catch(function(error) {next(error);});
+			}).catch(function(error) {next(error);});
+		}
+		// ************************ //
+
 		models.Quiz.findAll(options).then(function(quizes){
-			res.render('quizes/index.ejs',{quizes:quizes, errors: []});
+			res.render('quizes/index.ejs',{quizes:quizes, favos: favos, errors: []});
 		}).catch(function(error) {next(error);});
 	}
 };

@@ -1,9 +1,18 @@
 <table>
-  <% var i; for (i=0; i < quizes.length; i++) { %>        
+  <% var i; for (i=0; i < quizes.length; i++) { %>    
+
   <tr>
     <td><a href="/quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
       <%if(session.user) {
+        var es = false;
+        console.log(favos.length+" AAAAAAAAAAAA");
+        var j; for(j=0; j<favos.length; j++){
+          if(quizes[i].equals(favos[j])){
+             es = true;
+          }
+        }
         if (session.user.isAdmin || session.user.id === quizes[i].UserId) {%>
+
      <td><a href="/quizes/<%= quizes[i].id %>/edit"><button>editar</button></a></td>
      <td>
       <form method="post" action="/quizes/<%= quizes[i].id %>?_method=delete">
@@ -12,7 +21,15 @@
         </button>
       </form>
     </td>
-    <td><form method="post" action="/user/<%= session.user.id %>/favourites/<%=quizes[i].id%>?_method=put"><button>fav</button></a></td>
+
+    <%if(es){%>
+
+    <td><form method="post" action="/user/<%= session.user.id %>/favourites/<%=quizes[i].id%>?_method=put"><button><img src="/media/amarilla.png" style="width:14px; heigth:14px;"></button></a></td>
+    
+    <%} else { %>
+    <td><form method="post" action="/user/<%= session.user.id %>/favourites/<%=quizes[i].id%>?_method=put"><button><img src="/media/gris.png" style="width:14px; heigth:14px;"></button></a></td>
+    <%}%>
+
     <%}
   }%>
 </tr> 

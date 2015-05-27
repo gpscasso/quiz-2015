@@ -8,8 +8,6 @@
 	<tr>
 		<td><a href="/quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
 		<%if (session.user) { %>
-		<td><form method="post" action="/user/<%= session.user.id %>/favourites/<%=quizes[i].id%>?_method=delete">
-			<button type="submit" onClick="return confirm('¿Borrar &quot;<%= quizes[i].pregunta %>&quot; de favoritos?');">borrar fav</button></a></td>
 		<%if (session.user.isAdmin || session.user.id === quizes[i].UserId){ %>
 		<td><a href="/quizes/<%= quizes[i].id %>/edit"><button>editar</button></a></td>
 		<td>
@@ -17,6 +15,8 @@
 				<button type="submit" onClick="return confirm('¿Borrar &quot;<%= quizes[i].pregunta %>&quot;?');">borrar</button>
 			</form>
 		</td>
+				<td><form method="post" action="/user/<%= session.user.id %>/favourites/<%=quizes[i].id%>?_method=delete">
+			<button type="submit" onClick="return confirm('¿Borrar &quot;<%= quizes[i].pregunta %>&quot; de favoritos?');"><img src="/media/amarilla.png" style="width:14px; heigth:14px;"></button></a></td>
 	</tr>
 	<%}}%>
 	<% } %>
